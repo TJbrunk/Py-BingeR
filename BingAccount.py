@@ -36,7 +36,15 @@ class BingAccount(object):
         passwordField.submit()
         #reset the browser
         browser.get('http://www.bing.com')
-        time.sleep(5)
+        time.sleep(3)
+
+        self._startingPoints_ = int(browser.find_element_by_id("ir_rc").text)
+        print "%s currently has %d points" %(self.email, self._startingPoints_)
+
+        # browser.get('http://www.bing.com/rewards/dashboard')
+        # time.sleep(3)
+        # self._startingPoints_ = int(browser.find_element_by_class_name("credits").text)
+        # print "%s currently has %d points" %(self.email, self._startingPoints_)
 
     #---------------------------------------------------------------------------
 
@@ -234,8 +242,6 @@ class Desktop(BingAccount):
         time.sleep(5)
         browser.find_element_by_partial_link_text('Sign out').click()
         time.sleep(5)
-
-
 
 #*****************************LOAD ACCOUNTS FUNCTION****************************
 
