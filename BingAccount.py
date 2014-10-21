@@ -20,38 +20,6 @@ class BingAccount(object):
         self.email = email
         self.password = password
 
-
-##    def saveAccount(self, f='config.txt'):
-##        """Saves the Account class object, and sub classes to text file"""
-##
-##        #open the text file to save all the settings to
-##        f = open(f, 'a')
-##
-##        #get all the parametes of the account class
-##        bingParams = dict(self.__dict__.items())
-##
-##        #Write the header informaton to the file for the account class
-##        f.write("Bing Account settings: \n")
-##
-##        #for each parameter of the class, save it to the file
-##        #format == 'tab' key : value 'newline'
-##        for k, v in bingParams.iteritems():
-##            ##Replace the OBJECT value with True or False
-##            if k in ['mobile', 'desktop']:
-##                if v:
-##                    v = True
-##                else:
-##                    v = False
-##            ##Save the account settings to the file
-##            f.write('\t'+ k + ' : ' + str(v) +'\n')
-##
-##        if self.desktop:
-##            self.desktop.save(f)
-##        if self.mobile:
-##            self.mobile.save(f)
-##
-##        f.close()
-
     #---------------------------------------------------------------------------
 
     def login(self, URL, browser):
@@ -74,12 +42,10 @@ class BingAccount(object):
 
     def generate_word_list(self):
         """Generates a random list of words from the words.txt file"""
-#        print "Generating random word list"
         f = open('words.txt')
         words = f.readlines()
         for i in range(self._minSearches_):
             self._wordList_.append(words[random.randint(0,109581)].rstrip())
-#        print self._wordList_
         f.close()
 
     #---------------------------------------------------------------------------
@@ -92,10 +58,10 @@ class BingAccount(object):
        	    time.sleep(3)
     	    searchField = browser.find_element_by_name('q')
     	    searchField.send_keys(self._wordList_[i] + Keys.RETURN)
- #           print"searching for: " + self._wordList_[i]
+            #print"searching for: " + self._wordList_[i]
             print i,
             waitTime = random.randint(self.searchWaitShort, self.searchWaitLong)
- #           print "Waiting %d seconds" %(waitTime)
+            #print "Waiting %d seconds" %(waitTime)
     	    time.sleep(waitTime)
 
     #------------------------------------------------------------------------------
@@ -114,7 +80,7 @@ class BingAccount(object):
         #Go to bing Fly Out page: (Details about point accumluated today:
         browser.get('http://www.bing.com/rewardsapp/bepflyoutpage')
         time.sleep(7)
-#        print "Calculating points available to redeem"
+        #print "Calculating points available to redeem"
         #All offers on the flyout page are of class = offertitle
         offers = browser.find_elements_by_class_name('offertitle')
 
@@ -147,7 +113,7 @@ class BingAccount(object):
             print "Can't determine class type in get_multiplier"
             return
 
- #       print "Calculating minimum number of searches to perform"
+        #print "Calculating minimum number of searches to perform"
         offerwrapper = browser.find_elements_by_class_name('offerwrapper')
         for offer in offerwrapper:
             if offer.find_element_by_class_name('offertitle').text.find(searchString) > -1:
@@ -211,6 +177,7 @@ class Mobile(BingAccount):
                                         self.startDelayHigh)
         self._wordList_ = []
         self._pointsRemaining_ = 1
+        self._startingPoints_ = 0
 
         super(Mobile, self).__init__(email, password)
 
@@ -251,6 +218,8 @@ class Desktop(BingAccount):
                                            self.startDelayHigh)
         self._wordList_ = []
         self._pointsRemaining_ = 1
+        self._startingPoints_ = 0
+
 
         super(Desktop, self).__init__(email, password)
 
@@ -269,9 +238,10 @@ class Desktop(BingAccount):
 
 
 #*****************************LOAD ACCOUNTS FUNCTION****************************
-import csv
+
 def loadAccount(account, file='accounts.csv'):
     """Loads all Bing account objects from text file"""
+    import csv
     account += 1
     #List of Keys for account objects
     keys = ['email',

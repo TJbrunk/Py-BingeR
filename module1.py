@@ -9,7 +9,8 @@ import time
 def logout(a,browser):
     browser.get("http://www.bing.com/rewards/dashboard")
     time.sleep(2)
-    browser.find_element_by_xpath('//*[@id="mbHeader"]/a[2]/img').click()
+
+   browser.find_element_by_xpath('//*[@id="mbHeader"]/a[2]/img').click()
     time.sleep(2)
 
     sidebar = browser.find_elements_by_tag_name("a")
