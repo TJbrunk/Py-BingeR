@@ -38,13 +38,8 @@ class BingAccount(object):
         browser.get('http://www.bing.com')
         time.sleep(3)
 
-        self._startingPoints_ = int(browser.find_element_by_id("ir_rc").text)
+        self._startingPoints_ = self.get_account_points(browser)
         print "%s currently has %d points" %(self.email, self._startingPoints_)
-
-        # browser.get('http://www.bing.com/rewards/dashboard')
-        # time.sleep(3)
-        # self._startingPoints_ = int(browser.find_element_by_class_name("credits").text)
-        # print "%s currently has %d points" %(self.email, self._startingPoints_)
 
     #---------------------------------------------------------------------------
 
@@ -164,6 +159,17 @@ class BingAccount(object):
         #again to check if there are any other offers to claim
         if points:
             self.get_bonus_points(browser)
+
+    def get_account_points(self, browser):
+        """Finds and returns the number of points the account currently has"""
+        browser.get('http://www.bing.com')
+        time.sleep(3)
+        return int(browser.find_element_by_id("ir_rc").text)
+        # browser.get('http://www.bing.com/rewards/dashboard')
+        # time.sleep(3)
+        # self._startingPoints_ = int(browser.find_element_by_class_name("credits").text)
+        # print "%s currently has %d points" %(self.email, self._startingPoints_)
+
 
 #*********************************MOBILE CHILDCLASS*****************************
 class Mobile(BingAccount):
