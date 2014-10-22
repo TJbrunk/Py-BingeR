@@ -32,6 +32,7 @@ def main():
                 #init the desktop browser
                 desktopBrowser = webdriver.Chrome('C:\\chromedriver.exe')
                 desktopBrowser.set_window_size(1280,1024)
+                desktopBrowser.implicitly_wait(10)
                 browserLoaded = True
             ##run all desktop searches
             a.login("http://login.live.com", desktopBrowser)
@@ -73,6 +74,7 @@ def main():
 
                 mobileBrowser = webdriver.Chrome('C:\\chromedriver.exe',
                                                 chrome_options=options)
+                mobileBrowser.implicitly_wait(10)
                 browserLoaded = True
             #login to mobile
             a.login("http://login.live.com", mobileBrowser)

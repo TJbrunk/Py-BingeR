@@ -24,10 +24,10 @@ class BingAccount(object):
 
     def login(self, URL, browser):
         """Log's in to Outlook account"""
-        print "Start delay %d seconds. \t" %(self._startDelay_),
+        print "Start delay %d seconds. \t\t" %(self._startDelay_),
         time.sleep(self._startDelay_)
         browser.get(URL)
-        time.sleep(5)
+        #time.sleep(5)
         print "Logging in as " + self.email
         emailField = browser.find_element_by_name('login')
         emailField.send_keys(self.email)
@@ -36,7 +36,7 @@ class BingAccount(object):
         passwordField.submit()
         #reset the browser
         browser.get('http://www.bing.com')
-        time.sleep(3)
+#        time.sleep(3)
 
         self._startingPoints_ = self.get_account_points(browser)
         print "%s currently has %d points" %(self.email, self._startingPoints_)
@@ -58,7 +58,7 @@ class BingAccount(object):
         print "Starting %d searches" % (self._minSearches_)
         for i in range(self._minSearches_):
             browser.get("http://www.bing.com")
-       	    time.sleep(3)
+ #      	    time.sleep(3)
     	    searchField = browser.find_element_by_name('q')
     	    searchField.send_keys(self._wordList_[i] + Keys.RETURN)
             #print"searching for: " + self._wordList_[i]
@@ -83,7 +83,7 @@ class BingAccount(object):
 
         #Go to bing Fly Out page: (Details about point accumluated today:
         browser.get('http://www.bing.com/rewardsapp/bepflyoutpage')
-        time.sleep(7)
+ #       time.sleep(7)
         #print "Calculating points available to redeem"
         #All offers on the flyout page are of class = offertitle
         offers = browser.find_elements_by_class_name('offertitle')
@@ -166,7 +166,7 @@ class BingAccount(object):
     def get_account_points(self, browser):
         """Finds and returns the number of points the account currently has"""
         browser.get('http://www.bing.com/rewards/dashboard')
-        time.sleep(3)
+        time.sleep(5)
         return int(browser.find_element_by_id("id_rc").text)
 
 
