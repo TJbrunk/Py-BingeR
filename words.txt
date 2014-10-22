@@ -17146,8 +17146,6 @@ cleat
 cleated
 cleating
 cleats
-cleavage
-cleavages
 cleave
 cleaved
 cleaver
@@ -26612,10 +26610,6 @@ dilatorily
 dilatoriness
 dilators
 dilatory
-dildo
-dildoe
-dildoes
-dildos
 dilemma
 dilemmas
 dilemmic
@@ -40507,7 +40501,8 @@ glanced
 glances
 glancing
 glancingly
-gland
+gland
+
 glanders
 glandes
 glands
@@ -50196,7 +50191,6 @@ intransitiveness
 intransitives
 intrastate
 intrauterine
-intravaginal
 intravenous
 intravenously
 intreating
@@ -65519,7 +65513,6 @@ ooze
 oozed
 oozes
 oozier
-ooziest
 oozily
 ooziness
 oozing
@@ -69320,8 +69313,6 @@ penile
 peninsula
 peninsular
 peninsulas
-penis
-penises
 penitence
 penitent
 penitential
@@ -72453,15 +72444,6 @@ porkpie
 porkpies
 porks
 porky
-porn
-porno
-pornographer
-pornographic
-pornographically
-pornographies
-pornography
-pornos
-porns
 porose
 porosities
 porosity
@@ -104396,14 +104378,6 @@ vagal
 vagaries
 vagarious
 vagary
-vagina
-vaginae
-vaginal
-vaginally
-vaginas
-vaginate
-vaginated
-vaginitis
 vagrance
 vagrancies
 vagrancy

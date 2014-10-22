@@ -48,7 +48,7 @@ class BingAccount(object):
         f = open('words.txt')
         words = f.readlines()
         for i in range(self._minSearches_):
-            self._wordList_.append(words[random.randint(0,109581)].rstrip())
+            self._wordList_.append(words[random.randint(0,109561)].rstrip())
         f.close()
 
     #---------------------------------------------------------------------------
@@ -66,6 +66,7 @@ class BingAccount(object):
             waitTime = random.randint(self.searchWaitShort, self.searchWaitLong)
             #print "Waiting %d seconds" %(waitTime)
     	    time.sleep(waitTime)
+        print ""
 
     #------------------------------------------------------------------------------
 
@@ -160,15 +161,13 @@ class BingAccount(object):
         if points:
             self.get_bonus_points(browser)
 
+    #---------------------------------------------------------------------------
+
     def get_account_points(self, browser):
         """Finds and returns the number of points the account currently has"""
-        browser.get('http://www.bing.com')
+        browser.get('http://www.bing.com/rewards/dashboard')
         time.sleep(3)
-        return int(browser.find_element_by_id("ir_rc").text)
-        # browser.get('http://www.bing.com/rewards/dashboard')
-        # time.sleep(3)
-        # self._startingPoints_ = int(browser.find_element_by_class_name("credits").text)
-        # print "%s currently has %d points" %(self.email, self._startingPoints_)
+        return int(browser.find_element_by_id("id_rc").text)
 
 
 #*********************************MOBILE CHILDCLASS*****************************
@@ -199,8 +198,10 @@ class Mobile(BingAccount):
 
     def logout(self, browser):
         """Logs out of a mobile bing account"""
-        browser.get("http://www.bing.com/rewards/dashboard")
-        time.sleep(2)
+        finalPoints = self.get_account_points()
+        print "%s earned %d points with mobile searches"\
+            %(self.email, finalPoints - self._startingPoints_)
+
         browser.find_element_by_xpath('//*[@id="mbHeader"]/a[2]/img').click()
         time.sleep(2)
 
@@ -241,6 +242,9 @@ class Desktop(BingAccount):
 
     def logout(self, browser):
         """Logs out of outlook account"""
+        finalPoints = self.get_account_points(browser)
+        print "%s earned %d points with desktop searches"\
+            %(self.email, finalPoints - self._startingPoints_)
         browser.get('http://www.bing.com')
         time.sleep(3)
         print "Logging out %s \n\n\n" % self.email
