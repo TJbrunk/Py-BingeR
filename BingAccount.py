@@ -27,7 +27,7 @@ class BingAccount(object):
         print "Start delay %d seconds. \t\t" %(self._startDelay_),
         time.sleep(self._startDelay_)
         browser.get(URL)
-        #time.sleep(5)
+        time.sleep(5)
         print "Logging in as " + self.email
         emailField = browser.find_element_by_name('login')
         emailField.send_keys(self.email)
@@ -36,10 +36,10 @@ class BingAccount(object):
         passwordField.submit()
         #reset the browser
         browser.get('http://www.bing.com')
-#        time.sleep(3)
+        time.sleep(3)
 
         self._startingPoints_ = self.get_account_points(browser)
-        print "%s currently has %d points" %(self.email, self._startingPoints_)
+        print "%d points currently" %(self._startingPoints_)
 
     #---------------------------------------------------------------------------
 
@@ -108,35 +108,37 @@ class BingAccount(object):
         """Gets the search multiplier for the account.
         i.e. 1 point per 2 searches up to 15 points per day and calculates
         the minimum number of searches to perform"""
+        if self._pointsRemaining_ > 0:
+            if self.__class__.__name__ == "Desktop":
+                searchString = "PC search-"
+            elif self.__class__.__name__ == "Mobile":
+                searchString = "Mobile search-"
+            else:
+                print "Can't determine class type in get_multiplier"
+                return
 
-        if self.__class__.__name__ == "Desktop":
-            searchString = "PC search-"
-        elif self.__class__.__name__ == "Mobile":
-            searchString = "Mobile search-"
+            #print "Calculating minimum number of searches to perform"
+            offerwrapper = browser.find_elements_by_class_name('offerwrapper')
+            for offer in offerwrapper:
+                if offer.find_element_by_class_name('offertitle').text.find(searchString) > -1:
+                    multipliers = offer.find_elements_by_tag_name('span')
+                    for m in multipliers:
+                        if m.text.find('Earn 1 credit per ') > -1:
+                            text = m.text.split()
+                            nums = []
+                            for t in range(len(text)):
+                                try:
+                                    nums.append(int(text[t]))
+                                except:
+                                    pass
+
+                            self._minSearches_ = self._pointsRemaining_*nums[1]+self._extraSearches_
+                            print "%d credit per %d searches"\
+                                  %(nums[0], nums[1])
+                            #found what we need - return to caller
+                            return None
         else:
-            print "Can't determine class type in get_multiplier"
-            return
-
-        #print "Calculating minimum number of searches to perform"
-        offerwrapper = browser.find_elements_by_class_name('offerwrapper')
-        for offer in offerwrapper:
-            if offer.find_element_by_class_name('offertitle').text.find(searchString) > -1:
-                multipliers = offer.find_elements_by_tag_name('span')
-                for m in multipliers:
-                    if m.text.find('Earn 1 credit per ') > -1:
-                        text = m.text.split()
-                        nums = []
-                        for t in range(len(text)):
-                            try:
-                                nums.append(int(text[t]))
-                            except:
-                                pass
-
-                        self._minSearches_ = self._pointsRemaining_*nums[1]+self._extraSearches_
-                        print "%d credit per %d searches"\
-                              %(nums[0], nums[1])
-                        #found what we need - return to caller
-                        return None
+            print "All points have been collected"
 
     #---------------------------------------------------------------------------
 
@@ -198,9 +200,9 @@ class Mobile(BingAccount):
 
     def logout(self, browser):
         """Logs out of a mobile bing account"""
-        finalPoints = self.get_account_points()
-        print "%s earned %d points with mobile searches"\
-            %(self.email, finalPoints - self._startingPoints_)
+        finalPoints = self.get_account_points(browser)
+        print "%d points earned with mobile searches"\
+            %(finalPoints - self._startingPoints_)
 
         browser.find_element_by_xpath('//*[@id="mbHeader"]/a[2]/img').click()
         time.sleep(2)
@@ -211,6 +213,8 @@ class Mobile(BingAccount):
                 print "Logging out %s\n\n\n" % self.email
                 link.click()
                 return
+        browser.get("http://www.google.com")
+        time.sleep(3)
 
 
 #**********************************DESKTOP CHILDCLASS***************************
@@ -252,6 +256,8 @@ class Desktop(BingAccount):
         time.sleep(5)
         browser.find_element_by_partial_link_text('Sign out').click()
         time.sleep(5)
+        browser.get("http://www.google.com")
+        time.sleep(3)
 
 #*****************************LOAD ACCOUNTS FUNCTION****************************
 
