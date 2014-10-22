@@ -11,7 +11,7 @@
 
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
-import time
+import time, csv
 import random #import randint
 
 class BingAccount(object):
@@ -139,6 +139,7 @@ class BingAccount(object):
                             return None
         else:
             print "All points have been collected"
+            self._minSearches_ = self._extraSearches_
 
     #---------------------------------------------------------------------------
 
@@ -169,7 +170,31 @@ class BingAccount(object):
         """Finds and returns the number of points the account currently has"""
         browser.get('http://www.bing.com/rewards/dashboard')
         time.sleep(5)
-        return int(browser.find_element_by_id("id_rc").text)
+        points = int(browser.find_element_by_id("id_rc").text)
+        self.save_points(points)
+        return points
+
+    #---------------------------------------------------------------------------
+
+    def save_points (self, points):
+        """Saves the points for the given account to the csv file"""
+        #open the account file and read in all the accounts
+        with open("accounts.csv", 'r') as file:
+          accounts = [a for a in csv.reader(file)]
+        #find the account from the file that matches the current account
+        for a in range(len(accounts)):
+            #match by email address
+            if accounts[a][0] == self.email:
+                #replace the points column with the new points
+                accounts[a][10]= points
+                #stop when we get the matching account
+                break
+        #open the account for writing
+        with open("accounts.csv", 'wb') as file:
+            f = csv.writer(file)
+            #Write all of the accounts back to the file
+            f.writerows(accounts)
+
 
 
 #*********************************MOBILE CHILDCLASS*****************************
@@ -262,8 +287,7 @@ class Desktop(BingAccount):
 #*****************************LOAD ACCOUNTS FUNCTION****************************
 
 def loadAccount(account, file='accounts.csv'):
-    """Loads all Bing account objects from text file"""
-    import csv
+    """Loads the specified Bing account object from csv file"""
     account += 1
     #List of Keys for account objects
     keys = ['email',
