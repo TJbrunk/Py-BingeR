@@ -285,7 +285,7 @@ class Desktop(BingAccount):
 
 def loadAccount(account, folder, f='\\accounts.csv'):
     """Loads the specified Bing account object from csv file"""
-    account += 1
+ #   account += 1
     #List of Keys for account objects
     keys = ['email',
                 'password',

@@ -26,6 +26,7 @@ def main():
     i=0
     while True:
         try:
+            i+=1
             a = Desktop(**loadAccount(i, workingDir))
             if a.pcEnabled == 'TRUE':
                 if not browserLoaded:
@@ -50,7 +51,6 @@ def main():
 
                 #logout
                 a.logout(desktopBrowser)
-                i += 1
         except:
             print "Finished with PC searches"
             break
@@ -65,6 +65,7 @@ def main():
     i = 0
     while True:
         try:
+            i += 1
             a = Mobile(**loadAccount(i))
             if a.mobileEnabled == 'TRUE':
                 if not browserLoaded:
@@ -92,7 +93,7 @@ def main():
 
                 #logout of account
                 a.logout(mobileBrowser)
-                i += 1
+
         except:
             print "Finished with mobile searches"
             break
