@@ -4,10 +4,6 @@ def main():
 
 
     setup(console=['Main.py'],
-
-            options = {
-                'includes':'accounts.csv'
-                }
          )
 
 if __name__ == '__main__':
