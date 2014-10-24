@@ -12,6 +12,7 @@
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 import time, csv
+from datetime import datetime
 import random #import randint
 
 class BingAccount(object):
@@ -45,7 +46,7 @@ class BingAccount(object):
 
     def generate_word_list(self):
         """Generates a random list of words from the words.txt file"""
-        f = open('words.txt')
+        f = open(self._dir_ + '\\words.txt')
         words = f.readlines()
         for i in range(self._minSearches_):
             self._wordList_.append(words[random.randint(0,109561)].rstrip())
@@ -171,29 +172,20 @@ class BingAccount(object):
         browser.get('http://www.bing.com/rewards/dashboard')
         time.sleep(5)
         points = int(browser.find_element_by_id("id_rc").text)
-        self.save_points(points)
+        #self.save_points(points)
         return points
 
     #---------------------------------------------------------------------------
 
     def save_points (self, points):
-        """Saves the points for the given account to the csv file"""
-        #open the account file and read in all the accounts
-        with open("accounts.csv", 'r') as file:
-          accounts = [a for a in csv.reader(file)]
-        #find the account from the file that matches the current account
-        for a in range(len(accounts)):
-            #match by email address
-            if accounts[a][0] == self.email:
-                #replace the points column with the new points
-                accounts[a][10]= points
-                #stop when we get the matching account
-                break
-        #open the account for writing
-        with open("accounts.csv", 'wb') as file:
-            f = csv.writer(file)
+        """Saves the points for the given account to the points.txt file"""
+        #get the current date and time
+        dt = datetime.now()
+        #open the file and in prep for appending the new point values
+        with open(self._dir_ + "\\points.txt", 'a') as file:
+            line =("%s\t%s\t%d\n")%(dt, self.email, points)
             #Write all of the accounts back to the file
-            f.writerows(accounts)
+            file.write(line)
 
 
 
@@ -209,6 +201,8 @@ class Mobile(BingAccount):
         self.minSearchesHigh = int(kwargs['minSearchesHigh'])
         self.startDelayLow = int(kwargs['startDelayLow'])
         self.startDelayHigh = int(kwargs['startDelayHigh'])
+
+        self._dir_ = kwargs['workingDir']
 
         self._extraSearches_ = random.randint(self.minSearchesLow,
                                               self.minSearchesHigh)
@@ -226,6 +220,7 @@ class Mobile(BingAccount):
     def logout(self, browser):
         """Logs out of a mobile bing account"""
         finalPoints = self.get_account_points(browser)
+        self.save_points(finalPoints)
         print "%d points earned with mobile searches"\
             %(finalPoints - self._startingPoints_)
 
@@ -255,6 +250,7 @@ class Desktop(BingAccount):
         self.startDelayLow = int(kwargs['startDelayLow'])
         self.startDelayHigh = int(kwargs['startDelayHigh'])
 
+        self._dir_ = kwargs['workingDir']
         self._extraSearches_ = random.randint(self.minSearchesLow,
                                               self.minSearchesHigh)
         self._minSearches_ = 30
@@ -272,6 +268,7 @@ class Desktop(BingAccount):
     def logout(self, browser):
         """Logs out of outlook account"""
         finalPoints = self.get_account_points(browser)
+        self.save_points(finalPoints)
         print "%s earned %d points with desktop searches"\
             %(self.email, finalPoints - self._startingPoints_)
         browser.get('http://www.bing.com')
@@ -286,7 +283,7 @@ class Desktop(BingAccount):
 
 #*****************************LOAD ACCOUNTS FUNCTION****************************
 
-def loadAccount(account, file='accounts.csv'):
+def loadAccount(account, folder, f='\\accounts.csv'):
     """Loads the specified Bing account object from csv file"""
     account += 1
     #List of Keys for account objects
@@ -300,9 +297,13 @@ def loadAccount(account, file='accounts.csv'):
                 'minSearchesHigh',
                 'startDelayLow',
                 'startDelayHigh',
+                'workingDir',
                 ]
     #open the accounts file, get the desired account (row) and zip the values
     #to the settings as a dict
+    file = folder + f
     with open(file, 'rb') as csvfile:
         values = [a for a in csv.reader(csvfile)][account]
-        return dict(zip(keys,values))
+        values.append(folder)
+        kwargs = dict(zip(keys,values))
+        return kwargs
