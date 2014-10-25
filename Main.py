@@ -8,9 +8,9 @@
 # Copyright:   (c) TBrink 2014
 # Licence:     GPL2
 #-------------------------------------------------------------------------------
-from BingAccount import Desktop, Mobile
-
-from BingAccount import loadAccount
+import bingaccount.BingAccount
+from bingaccount import Desktop, Mobile
+from bingaccount import loadAccount
 import os
 
 
@@ -27,7 +27,7 @@ def main():
     while True:
         try:
             i+=1
-            a = Desktop(**loadAccount(i, workingDir))
+            a = Desktop.Desktop(**loadAccount.loadAccount(i, workingDir))
             if a.pcEnabled == 'TRUE':
                 if not browserLoaded:
                     #init the desktop browser
@@ -51,7 +51,7 @@ def main():
 
                 #logout
                 a.logout(desktopBrowser)
-        except:
+        except("IndexError"):
             print "Finished with PC searches"
             break
 
