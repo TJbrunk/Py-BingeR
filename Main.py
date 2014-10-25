@@ -51,7 +51,7 @@ def main():
 
                 #logout
                 a.logout(desktopBrowser)
-        except("IndexError"):
+        except IndexError:
             print "Finished with PC searches"
             break
 
@@ -66,7 +66,7 @@ def main():
     while True:
         try:
             i += 1
-            a = Mobile(**loadAccount(i))
+            a = Mobile.Mobile(**loadAccount.loadAccount(i, workingDir))
             if a.mobileEnabled == 'TRUE':
                 if not browserLoaded:
                     #init mobile browser
@@ -94,7 +94,7 @@ def main():
                 #logout of account
                 a.logout(mobileBrowser)
 
-        except:
+        except IndexError:
             print "Finished with mobile searches"
             break
 
