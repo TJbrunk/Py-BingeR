@@ -101,14 +101,6 @@ class BingAccount(object):
         """Gets the search multiplier for the account.
         i.e. 1 point per 2 searches up to 15 points per day and calculates
         the minimum number of searches to perform"""
-##        if self._pointsRemaining_ > 0:
-##            if self.__class__.__name__ == "Desktop":
-##                searchString = "PC search-"
-##            elif self.__class__.__name__ == "Mobile":
-##                searchString = "Mobile search-"
-##            else:
-##                print "Can't determine class type in get_multiplier"
-##                return
 
             #print "Calculating minimum number of searches to perform"
         offerwrapper = browser.find_elements_by_class_name('offerwrapper')
@@ -178,7 +170,33 @@ class BingAccount(object):
             #Write all of the accounts back to the file
             file.write(line)
 
+    #---------------------------------------------------------------------------
 
+    def goal_check(self, browser):
+        """Checks if the goal for the account has been met"""
+
+        browser.get("http://www.bing.com/rewardsapp/bepflyoutpage")
+        time.sleep(3)
+
+        offers = browser.find_elements_by_class_name('offertitle')
+        for offer in offers:
+            #Find the offer that is the Account Goal
+            if offer.text.find("Your goal") >-1:
+                goal, points = offer.text.split("-")
+                points, goal = points.split(' of ')
+                points, goal = int(points), int(goal)
+
+                if points >= goal:
+                    print '\n' + '%' * 40
+                    print "%s has reached its goal"%(self.email)
+                    print '%' * 40 + '\n'
+                elif points < goal:
+                    remaining = goal - points
+                    print "still need %d points to reach goal" % remaining
+                else:
+                    print "no goal found"
+                break
+        return
 
 
 
