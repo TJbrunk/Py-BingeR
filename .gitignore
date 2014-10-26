@@ -52,7 +52,5 @@ docs/_build/
 
 # PyBuilder
 target/
-accounts.csv
-accounts - Copy.csv
 Bing Account Tester Files/
 dependencies/points.txt
