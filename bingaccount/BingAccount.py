@@ -49,7 +49,7 @@ class BingAccount(object):
         f = open(self._dir_ + '\\words.txt')
         words = f.readlines()
         for i in range(self._minSearches_):
-            self._wordList_.append(words[random.randint(0,109561)].rstrip())
+            self._wordList_.append(words[random.randint(0,len(words))].rstrip())
         f.close()
 
     #---------------------------------------------------------------------------
