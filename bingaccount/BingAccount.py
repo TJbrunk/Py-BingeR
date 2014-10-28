@@ -77,7 +77,7 @@ class BingAccount(object):
         #Go to bing Fly Out page: (Details about point accumluated today:
         browser.get('http://www.bing.com/rewardsapp/bepflyoutpage')
         time.sleep(3)
-        #print "Calculating points available to redeem"
+        ##print "Calculating points available to redeem"
         #All offers on the flyout page are of class = offertitle
         offers = browser.find_elements_by_class_name('offertitle')
 
@@ -101,16 +101,7 @@ class BingAccount(object):
         """Gets the search multiplier for the account.
         i.e. 1 point per 2 searches up to 15 points per day and calculates
         the minimum number of searches to perform"""
-##        if self._pointsRemaining_ > 0:
-##            if self.__class__.__name__ == "Desktop":
-##                searchString = "PC search-"
-##            elif self.__class__.__name__ == "Mobile":
-##                searchString = "Mobile search-"
-##            else:
-##                print "Can't determine class type in get_multiplier"
-##                return
 
-            #print "Calculating minimum number of searches to perform"
         offerwrapper = browser.find_elements_by_class_name('offerwrapper')
         for offer in offerwrapper:
             if offer.find_element_by_class_name('offertitle').text.find(searchString) > -1:
@@ -175,7 +166,7 @@ class BingAccount(object):
         #open the file and in prep for appending the new point values
         with open(self._dir_ + "\\points.txt", 'a') as file:
             line =("%s\t%s\t%d\n")%(dt, self.email, points)
-            #Write all of the accounts back to the file
+            #Write the date - time - account - points to the file
             file.write(line)
 
 

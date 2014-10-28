@@ -54,6 +54,8 @@ def main():
         except IndexError:
             print "Finished with PC searches"
             break
+        except selenium.common.exceptions.NoSuchElementException:
+			print "Selenium encountered and error. Verify the account"
 
     if browserLoaded:
         #close desktop browser
@@ -97,6 +99,8 @@ def main():
         except IndexError:
             print "Finished with mobile searches"
             break
+        except selenium.common.exceptions.NoSuchElementException:
+			print "Selenium encountered and error. Verify the account"
 
     #close mobile browser
     if browserLoaded:
