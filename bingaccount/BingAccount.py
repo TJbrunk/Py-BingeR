@@ -11,7 +11,7 @@
 
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
-import time, random
+import time, random, os.path.exists
 from datetime import datetime
 #import random, Desktop, Mobile
 
@@ -161,12 +161,18 @@ class BingAccount(object):
 
     def save_points (self, points):
         """Saves the points for the given account to the points.txt file"""
-        #get the current date and time
+        pointsFile = self._dir_ + "\\points.txt"
+	if not os.path.exists(pointsFile):
+	    #create file header here
+	    print "Points file not found"
+	
+	#get the current date and time
         dt = datetime.now()
         #open the file and in prep for appending the new point values
-        with open(self._dir_ + "\\points.txt", 'a') as file:
-            line =("%s\t%s\t%d\n")%(dt, self.email, points)
-            #Write the date - time - account - points to the file
+        with open(pointsFile, 'a') as file:
+            line =("%s \t %s \t %d \t %d \n")\
+	        %(dt, self.email, self._startingPoints_,  points)
+            #Write the date/time - account - starting points - points to the file
             file.write(line)
 
 
