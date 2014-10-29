@@ -19,6 +19,7 @@ def main():
     #it is used in this case to login/logout of bing accounts
     #find daily point offers, and points collected today
     from selenium import webdriver
+    import selenium.common.exceptions
     workingDir = os.getcwd() + '\\dependencies'
 
 
