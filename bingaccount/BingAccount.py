@@ -11,7 +11,7 @@
 
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
-import time, random, os.path.exists
+import time, random, os.path
 from datetime import datetime
 #import random, Desktop, Mobile
 
@@ -165,7 +165,7 @@ class BingAccount(object):
 	if not os.path.exists(pointsFile):
 	    #create file header here
 	    print "Points file not found"
-	
+
 	#get the current date and time
         dt = datetime.now()
         #open the file and in prep for appending the new point values
