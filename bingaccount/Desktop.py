@@ -34,6 +34,7 @@ class Desktop(BingAccount.BingAccount):
         self.save_points(finalPoints)
         print "%s earned %d points with desktop searches"\
             %(self.email, finalPoints - self._startingPoints_)
+        self.goal_check(browser)
         browser.get('http://www.bing.com')
         time.sleep(3)
         print "Logging out %s \n\n\n" % self.email
