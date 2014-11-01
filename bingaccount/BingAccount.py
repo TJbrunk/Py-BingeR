@@ -49,7 +49,7 @@ class BingAccount(object):
         f = open(self._dir_ + '\\words.txt')
         words = f.readlines()
         for i in range(self._minSearches_):
-            self._wordList_.append(words[random.randint(0,len(words))].rstrip())
+            self._wordList_.append(words[random.randint(0,109561)].rstrip())
         f.close()
 
     #---------------------------------------------------------------------------
@@ -102,10 +102,6 @@ class BingAccount(object):
         i.e. 1 point per 2 searches up to 15 points per day and calculates
         the minimum number of searches to perform"""
 
-<<<<<<< HEAD
-=======
-            #print "Calculating minimum number of searches to perform"
->>>>>>> FindAccountGoal
         offerwrapper = browser.find_elements_by_class_name('offerwrapper')
         for offer in offerwrapper:
             if offer.find_element_by_class_name('offertitle').text.find(searchString) > -1:
@@ -179,33 +175,7 @@ class BingAccount(object):
             #Write the date/time - account - starting points - points to the file
             file.write(line)
 
-    #---------------------------------------------------------------------------
 
-    def goal_check(self, browser):
-        """Checks if the goal for the account has been met"""
-
-        browser.get("http://www.bing.com/rewardsapp/bepflyoutpage")
-        time.sleep(3)
-
-        offers = browser.find_elements_by_class_name('offertitle')
-        for offer in offers:
-            #Find the offer that is the Account Goal
-            if offer.text.find("Your goal") >-1:
-                goal, points = offer.text.split("-")
-                points, goal = points.split(' of ')
-                points, goal = int(points), int(goal)
-
-                if points >= goal:
-                    print '\n' + '%' * 40
-                    print "%s has reached its goal"%(self.email)
-                    print '%' * 40 + '\n'
-                elif points < goal:
-                    remaining = goal - points
-                    print "still need %d points to reach goal" % remaining
-                else:
-                    print "no goal found"
-                break
-        return
 
 
 
