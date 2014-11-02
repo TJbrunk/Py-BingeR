@@ -50,6 +50,9 @@ def main():
                 #get daily bonus point(s)
                 a.get_bonus_points(desktopBrowser)
 
+
+                a.goal_check(desktopBrowser)
+
                 #logout
                 a.logout(desktopBrowser)
         except IndexError:
@@ -93,6 +96,8 @@ def main():
                 a.search(mobileBrowser)
 
                 a.get_bonus_points(mobileBrowser)
+
+                a.goal_check(mobileBrowser)
 
                 #logout of account
                 a.logout(mobileBrowser)
