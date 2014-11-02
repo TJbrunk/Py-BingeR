@@ -117,6 +117,8 @@ def main(argv):
             break
         except selenium.common.exceptions.NoSuchElementException:
 			print "Selenium encountered and error. Verify the account"
+        except StandardError:
+            print "Unable to login %s" % a.email
 
     #close mobile browser
     if browserLoaded:

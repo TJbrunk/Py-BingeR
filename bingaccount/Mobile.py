@@ -35,10 +35,9 @@ class Mobile(BingAccount.BingAccount):
         print "%d points earned with mobile searches"\
             %(finalPoints - self._startingPoints_)
 
-        browser.get("http://www.bing.com/rewards/dashboard")
-
         self.goal_check(browser)
 
+        browser.get("http://www.bing.com/rewards/dashboard")
         browser.find_element_by_xpath('//*[@id="mbHeader"]/a[2]/img').click()
         time.sleep(2)
 

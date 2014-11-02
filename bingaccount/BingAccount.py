@@ -39,7 +39,7 @@ class BingAccount(object):
             passwordField = browser.find_element_by_name('passwd')
             passwordField.send_keys(self.password)
             passwordField.submit()
-
+            time.sleep(2)
             if self.verify_login(browser):
                 print "Logging in as " + self.email
 
@@ -214,6 +214,7 @@ class BingAccount(object):
 
     def verify_login(self, browser):
         """Returns True if the account logged in successfully"""
+        time.sleep(2)
         summary = browser.find_element_by_class_name("summaryhead")
         if summary.text.find(self.email) > -1:
             return True
