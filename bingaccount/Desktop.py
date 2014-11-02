@@ -1,4 +1,4 @@
-import BingAccount, random, time
+import BingAccount, random, time, os
 
 #**********************************DESKTOP CHILDCLASS***************************
 class Desktop(BingAccount.BingAccount):
@@ -13,7 +13,7 @@ class Desktop(BingAccount.BingAccount):
         self.startDelayLow = int(kwargs['startDelayLow'])
         self.startDelayHigh = int(kwargs['startDelayHigh'])
 
-        self._dir_ = kwargs['workingDir']
+        self._dir_ = os.getcwd() + '\\dependencies'
         self._extraSearches_ = random.randint(self.minSearchesLow,
                                               self.minSearchesHigh)
         self._minSearches_ = 30
