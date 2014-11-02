@@ -24,23 +24,32 @@ class BingAccount(object):
     #---------------------------------------------------------------------------
 
     def login(self, URL, browser):
-        """Log's in to Outlook account"""
-        print "Start delay %d seconds. \t\t" %(self._startDelay_),
-        time.sleep(self._startDelay_)
-        browser.get(URL)
-        time.sleep(5)
-        print "Logging in as " + self.email
-        emailField = browser.find_element_by_name('login')
-        emailField.send_keys(self.email)
-        passwordField = browser.find_element_by_name('passwd')
-        passwordField.send_keys(self.password)
-        passwordField.submit()
-        #reset the browser
-        browser.get('http://www.bing.com')
-        time.sleep(3)
+        """Attempts to log in to Outlook account up to three times"""
 
-        self._startingPoints_ = self.get_account_points(browser)
-        print "%d points currently" %(self._startingPoints_)
+        print "Start delay %d seconds. \t\t" %(self._startDelay_)
+
+        time.sleep(self._startDelay_)
+
+        for i in range(3):
+            browser.get(URL)
+            time.sleep(5)
+
+            emailField = browser.find_element_by_name('login')
+            emailField.send_keys(self.email)
+            passwordField = browser.find_element_by_name('passwd')
+            passwordField.send_keys(self.password)
+            passwordField.submit()
+
+            if self.verify_login(browser):
+                print "Logging in as " + self.email
+
+                #find how many points the account has already earned
+                self._startingPoints_ = self.get_account_points(browser)
+
+                return
+            else:
+                print "Error logging in %s. Trying again" % self.email
+        raise StandardError("unable to login")
 
     #---------------------------------------------------------------------------
 
@@ -152,10 +161,8 @@ class BingAccount(object):
     def get_account_points(self, browser):
         """Finds and returns the number of points the account currently has"""
         browser.get('http://www.bing.com/rewards/dashboard')
-        time.sleep(5)
-        points = int(browser.find_element_by_id("id_rc").text)
-        #self.save_points(points)
-        return points
+        time.sleep(7)
+        return int(browser.find_element_by_id("id_rc").text)
 
     #---------------------------------------------------------------------------
 
@@ -203,7 +210,15 @@ class BingAccount(object):
                 break
         return
 
+    #---------------------------------------------------------------------------
 
+    def verify_login(self, browser):
+        """Returns True if the account logged in successfully"""
+        summary = browser.find_element_by_class_name("summaryhead")
+        if summary.text.find(self.email) > -1:
+            return True
+        else:
+            return False
 
 
 

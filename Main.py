@@ -40,29 +40,35 @@ def main(argv):
                     desktopBrowser.implicitly_wait(10)
                     browserLoaded = True
 
-                #run all desktop searches
+                #Login and verify the login
                 a.login("http://login.live.com", desktopBrowser)
+
+                #Find how many points can be earned for Desktop searches
                 a.get_points(desktopBrowser)
 
-                #print"Getting multiplier & calculating minimum searches"
+                #Calc the number of searches need to get all the points
                 a.get_multiplier(desktopBrowser)
 
+                #Get random words for the number of searches to perform
                 a.generate_word_list()
+
+                #search all for all the word
                 a.search(desktopBrowser)
 
                 #get daily bonus point(s)
                 a.get_bonus_points(desktopBrowser)
 
 
-                a.goal_check(desktopBrowser)
-
                 #logout
                 a.logout(desktopBrowser)
         except IndexError:
+            #We get an index error after all the accounts in the file have been run
             print "Finished with PC searches"
             break
         except selenium.common.exceptions.NoSuchElementException:
             print "Selenium encountered and error. Verify the account"
+        except StandardError:
+            print "Unable to login %s" % a.email
 
     if browserLoaded:
         #close desktop browser
@@ -91,6 +97,7 @@ def main(argv):
                     browserLoaded = True
                 #login to mobile
                 a.login("http://login.live.com", mobileBrowser)
+
                 a.get_points(mobileBrowser)
                 a.get_multiplier(mobileBrowser)
                 a.generate_word_list()
@@ -100,7 +107,7 @@ def main(argv):
 
                 a.get_bonus_points(mobileBrowser)
 
-                a.goal_check(mobileBrowser)
+    #            a.goal_check(mobileBrowser)
 
                 #logout of account
                 a.logout(mobileBrowser)
