@@ -66,7 +66,9 @@ def main(argv):
             print "Finished with PC searches"
             break
         except selenium.common.exceptions.NoSuchElementException:
-            print "Selenium encountered and error. Verify the account"
+            print "Selenium encountered and error. Verify the account\n\n"
+            desktopBrowser.quit()
+            browserLoaded = False
         except StandardError:
             print "Unable to login %s" % a.email
 
@@ -116,7 +118,9 @@ def main(argv):
             print "Finished with mobile searches"
             break
         except selenium.common.exceptions.NoSuchElementException:
-			print "Selenium encountered and error. Verify the account"
+            print "Selenium encountered and error. Verify the account\n\n"
+            mobileBrowser.quit()
+            browserLoaded = False
         except StandardError:
             print "Unable to login %s" % a.email
 
