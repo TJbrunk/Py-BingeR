@@ -3,8 +3,10 @@ def main():
     import py2exe
 
 
-    setup(console=['Main.py'],
+    setup(console=['Py-BingeR.py'],
          )
 
 if __name__ == '__main__':
     main()
+    #call this file from the command line as follows
+    #python setup.py py2exe
