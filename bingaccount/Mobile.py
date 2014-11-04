@@ -15,8 +15,16 @@ class Mobile(BingAccount.BingAccount):
 
         self._dir_ = os.getcwd() + '\\dependencies'
 
-        self._extraSearches_ = random.randint(self.minSearchesLow,
+                #if Low < High pick random # for extra searches
+        if self.minSearchesLow < self.minSearchesHigh:
+            self._extraSearches_ = random.randint(self.minSearchesLow,
                                               self.minSearchesHigh)
+
+        #if High < Low pick random # of less searches to perform
+        else:
+            self._extraSearches_ = random.randint(self.minSearchesHigh,
+                                                self.minSearchesLow) * -1
+
         self._minSearches_ = 30
         self._startDelay_ = random.randint(self.startDelayLow,
                                         self.startDelayHigh)
