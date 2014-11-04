@@ -64,6 +64,7 @@ def main(argv):
         except IndexError:
             #We get an index error after all the accounts in the file have been run
             print "Finished with PC searches"
+            print '=' * 80
             break
         except selenium.common.exceptions.NoSuchElementException:
             print "Selenium encountered and error. Verify the account\n\n"
@@ -116,6 +117,7 @@ def main(argv):
 
         except IndexError:
             print "Finished with mobile searches"
+            print '=' * 80
             break
         except selenium.common.exceptions.NoSuchElementException:
             print "Selenium encountered and error. Verify the account\n\n"
