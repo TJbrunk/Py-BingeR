@@ -40,27 +40,34 @@ def main(argv):
                     desktopBrowser.implicitly_wait(10)
                     browserLoaded = True
 
-                #Login and verify the login
-                a.login("http://login.live.com", desktopBrowser)
+                for x in range(3):
+                    #login to mobile
+                    a.login("http://login.live.com", desktopBrowser)
+                    loggedin = a.verify_login(desktopBrowser)
+                    if loggedin:
+                        print "Logged in as %s" % a.email
+                        a.get_points(desktopBrowser)
+                        a.get_multiplier(desktopBrowser)
+                        a.generate_word_list()
 
-                #Find how many points can be earned for Desktop searches
-                a.get_points(desktopBrowser)
+                        #run all searches
+                        a.search(desktopBrowser)
 
-                #Calc the number of searches need to get all the points
-                a.get_multiplier(desktopBrowser)
+                        a.get_bonus_points(desktopBrowser)
 
-                #Get random words for the number of searches to perform
-                a.generate_word_list()
+            #            a.goal_check(desktopBrowser)
 
-                #search all for all the word
-                a.search(desktopBrowser)
+                        #logout of account
+                        a.logout(desktopBrowser)
+                        if a.verify_logout(desktopBrowser):
+                            pass
+                        else:
+                            desktopBrowser.quit()
+                            browserLoaded = False
+                        break
+                    else:
+                        pass
 
-                #get daily bonus point(s)
-                a.get_bonus_points(desktopBrowser)
-
-
-                #logout
-                a.logout(desktopBrowser)
         except IndexError:
             #We get an index error after all the accounts in the file have been run
             print "Finished with PC searches"
@@ -70,8 +77,7 @@ def main(argv):
             print "Selenium encountered and error. Verify the account\n\n"
             desktopBrowser.quit()
             browserLoaded = False
-        except StandardError:
-            print "Unable to login %s" % a.email
+
 
     if browserLoaded:
         #close desktop browser
@@ -98,22 +104,33 @@ def main(argv):
                                                     chrome_options=options)
                     mobileBrowser.implicitly_wait(10)
                     browserLoaded = True
-                #login to mobile
-                a.login("http://login.live.com", mobileBrowser)
+                for x in range(3):
+                    #login to mobile
+                    a.login("http://login.live.com", mobileBrowser)
+                    loggedin = a.verify_login(mobileBrowser)
+                    if loggedin:
+                        print "Logged in as %s" % a.email
+                        a.get_points(mobileBrowser)
+                        a.get_multiplier(mobileBrowser)
+                        a.generate_word_list()
 
-                a.get_points(mobileBrowser)
-                a.get_multiplier(mobileBrowser)
-                a.generate_word_list()
+                        #run all searches
+                        a.search(mobileBrowser)
 
-                #run all searches
-                a.search(mobileBrowser)
+                        a.get_bonus_points(mobileBrowser)
 
-                a.get_bonus_points(mobileBrowser)
+            #            a.goal_check(mobileBrowser)
 
-    #            a.goal_check(mobileBrowser)
-
-                #logout of account
-                a.logout(mobileBrowser)
+                        #logout of account
+                        a.logout(mobileBrowser)
+                        if a.verify_logout(mobileBrowser):
+                            pass
+                        else:
+                            mobileBrowser.quit()
+                            browserLoaded = False
+                        break
+                    else:
+                        pass
 
         except IndexError:
             print "Finished with mobile searches"
@@ -123,8 +140,7 @@ def main(argv):
             print "Selenium encountered and error. Verify the account\n\n"
             mobileBrowser.quit()
             browserLoaded = False
-        except StandardError:
-            print "Unable to login %s" % a.email
+
 
     #close mobile browser
     if browserLoaded:

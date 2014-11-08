@@ -38,10 +38,10 @@ class Mobile(BingAccount.BingAccount):
 
     def logout(self, browser):
         """Logs out of a mobile bing account"""
-        finalPoints = self.get_account_points(browser)
-        self.save_points(finalPoints)
-        print "%d points earned with mobile searches"\
-            %(finalPoints - self._startingPoints_)
+##        finalPoints = self.get_account_points(browser)
+##        self.save_points(finalPoints)
+##        print "%d points earned with mobile searches"\
+##            %(finalPoints - self._startingPoints_)
 
         self.goal_check(browser)
 
@@ -49,14 +49,23 @@ class Mobile(BingAccount.BingAccount):
         browser.find_element_by_xpath('//*[@id="mbHeader"]/a[2]/img').click()
         time.sleep(2)
 
-        sidebar = browser.find_elements_by_tag_name("a")
-        for link in sidebar:
-            if link.text.find('Sign out') > -1:
-                print "Logging out %s\n\n\n" % self.email
-                link.click()
-                return
-        browser.get("http://www.google.com")
-        time.sleep(3)
+        for i in range(4):
+            try:
+                AccountMenu = browser.find_element_by_xpath('//*[@id="Account"]').click()
+                time.sleep(2)
+                browser.find_element_by_xpath('//*[@id="Account_menu"]/a[5]/li').click()
+                break
+            except selenium.common.exceptions.ElementNotVisibleException:
+                i += 1
+
+##        AccountMenu.click()
+##        sidebar = browser.find_elements_by_class_names("sublevel active")
+##        for link in sidebar:
+##            print link.text
+##            if link.text.find('Sign out') > -1:
+##                print "Logging out %s\n\n\n" % self.email
+##                link.click()
+##                return
 
     #---------------------------------------------------------------------------
 

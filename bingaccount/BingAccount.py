@@ -26,30 +26,21 @@ class BingAccount(object):
     def login(self, URL, browser):
         """Attempts to log in to Outlook account up to three times"""
 
-        print "Start delay %d seconds. \t\t" %(self._startDelay_)
+        print "+"*15 + self.email + "+"*15
+
+        print "Start delay %d seconds." %(self._startDelay_)
 
         time.sleep(self._startDelay_)
 
-        for i in range(3):
-            browser.get(URL)
-            time.sleep(5)
+        browser.get(URL)
+        time.sleep(5)
 
-            emailField = browser.find_element_by_name('login')
-            emailField.send_keys(self.email)
-            passwordField = browser.find_element_by_name('passwd')
-            passwordField.send_keys(self.password)
-            passwordField.submit()
-            time.sleep(2)
-            if self.verify_login(browser):
-                print "Logging in as " + self.email
-
-                #find how many points the account has already earned
-                self._startingPoints_ = self.get_account_points(browser)
-
-                return
-            else:
-                print "Error logging in %s. Trying again" % self.email
-        raise StandardError("unable to login")
+        emailField = browser.find_element_by_name('login')
+        emailField.send_keys(self.email)
+        passwordField = browser.find_element_by_name('passwd')
+        passwordField.send_keys(self.password)
+        passwordField.submit()
+        time.sleep(2)
 
     #---------------------------------------------------------------------------
 
@@ -214,12 +205,25 @@ class BingAccount(object):
 
     def verify_login(self, browser):
         """Returns True if the account logged in successfully"""
+        browser.get("http://account.live.com")
         time.sleep(2)
         summary = browser.find_element_by_class_name("summaryhead")
-        if summary.text.find(self.email) > -1:
+        if summary.text.find(self.email.lower()) > -1:
             return True
         else:
             return False
 
+    #---------------------------------------------------------------------------
 
-
+    def verify_logout(self, browser):
+        """Returns True if the account logged out successfully"""
+        browser.get("http://account.live.com")
+        time.sleep(1)
+        div = "+"*15
+        if browser.find_element_by_class_name("loginhead").text.find("Sign in") > -1:
+            print div + "%s logged out" %self.email + div + "\n\n\n"
+            return True
+        else:
+            print "Error logging out. Restarting the browser"
+            print div + self.email + div +"\n\n\n"
+            return False

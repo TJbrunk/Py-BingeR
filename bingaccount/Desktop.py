@@ -45,13 +45,10 @@ class Desktop(BingAccount.BingAccount):
         self.goal_check(browser)
         browser.get('http://www.bing.com')
         time.sleep(3)
-        print "Logging out %s \n\n\n" % self.email
         browser.find_element_by_id('id_l').click()
         time.sleep(5)
         browser.find_element_by_partial_link_text('Sign out').click()
-        time.sleep(5)
-        browser.get("http://www.google.com")
-        time.sleep(3)
+
 
     #---------------------------------------------------------------------------
 
