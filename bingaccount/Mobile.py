@@ -38,10 +38,12 @@ class Mobile(BingAccount.BingAccount):
 
     def logout(self, browser):
         """Logs out of a mobile bing account"""
-##        finalPoints = self.get_account_points(browser)
-##        self.save_points(finalPoints)
-##        print "%d points earned with mobile searches"\
-##            %(finalPoints - self._startingPoints_)
+        browser.get("http://www.bing.com")
+        time.sleep(1)
+        finalPoints = self.get_account_points(browser)
+        self.save_points(finalPoints)
+        print "%d points earned"\
+            %(finalPoints - self._startingPoints_)
 
         self.goal_check(browser)
 
@@ -58,14 +60,6 @@ class Mobile(BingAccount.BingAccount):
             except selenium.common.exceptions.ElementNotVisibleException:
                 i += 1
 
-##        AccountMenu.click()
-##        sidebar = browser.find_elements_by_class_names("sublevel active")
-##        for link in sidebar:
-##            print link.text
-##            if link.text.find('Sign out') > -1:
-##                print "Logging out %s\n\n\n" % self.email
-##                link.click()
-##                return
 
     #---------------------------------------------------------------------------
 
@@ -78,3 +72,10 @@ class Mobile(BingAccount.BingAccount):
 
     def get_points(self, browser):
         super(Mobile, self).get_points(browser, "Mobile search-")
+
+
+    def login(self, url, browser):
+        super(Mobile, self).login(url, browser)
+        time.sleep(0.5)
+        browser.get("http://www.bing.com")
+        time.sleep(0.5)

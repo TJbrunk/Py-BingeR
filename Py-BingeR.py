@@ -45,9 +45,10 @@ def main(argv):
                     a.login("http://login.live.com", desktopBrowser)
                     loggedin = a.verify_login(desktopBrowser)
                     if loggedin:
-                        print "Logged in as %s" % a.email
+                        print "Logged in"
                         a.get_points(desktopBrowser)
                         a.get_multiplier(desktopBrowser)
+
                         a.generate_word_list()
 
                         #run all searches
@@ -66,7 +67,7 @@ def main(argv):
                             browserLoaded = False
                         break
                     else:
-                        pass
+                        print "Error Logging in as %s\n\n" % a.email
 
         except IndexError:
             #We get an index error after all the accounts in the file have been run
@@ -77,6 +78,8 @@ def main(argv):
             print "Selenium encountered and error. Verify the account\n\n"
             desktopBrowser.quit()
             browserLoaded = False
+        except:
+            print "general error. proceeding to next account"
 
 
     if browserLoaded:
@@ -109,7 +112,7 @@ def main(argv):
                     a.login("http://login.live.com", mobileBrowser)
                     loggedin = a.verify_login(mobileBrowser)
                     if loggedin:
-                        print "Logged in as %s" % a.email
+                        print "Logged in"
                         a.get_points(mobileBrowser)
                         a.get_multiplier(mobileBrowser)
                         a.generate_word_list()
@@ -130,7 +133,7 @@ def main(argv):
                             browserLoaded = False
                         break
                     else:
-                        pass
+                        print "Error logging in as %s\n\n" % a.email
 
         except IndexError:
             print "Finished with mobile searches"
@@ -140,6 +143,8 @@ def main(argv):
             print "Selenium encountered and error. Verify the account\n\n"
             mobileBrowser.quit()
             browserLoaded = False
+        except:
+            print "general error. proceeding to next account"
 
 
     #close mobile browser
@@ -157,12 +162,12 @@ def Parse_Inputs(argv, workingDir):
         print "-h or --help : display this help menu"
         print "-f <account.csv file> or --file <account.csv file> : use to specify\
         an account file other than the default"
-        print "-d or --debug : enable vebose output for debugging"
+        print "-v or --verbose : enable vebose output for debugging"
         print "-a <#> or --account <#> : Run Py-BingeR with only the these accounts\
-        from the account file"
+        from the account file\nNOTE: NOT CURRENTLY IMPLEMENTED"
 
     accFile = workingDir + '\\accounts.csv'
-    debug = False
+    verbose = False
     account = False
 
     try:
@@ -176,14 +181,14 @@ def Parse_Inputs(argv, workingDir):
             if opt in ('-f', '--file'):
                accFile = arg
 
-            if opt in ('-d', '--debug'):
-                debug = True
-                print "debugging enabled"
+            if opt in ('-v', '--verbose'):
+                verbose = True
+                print "Verbose output enabled"
 
             if opt in ('-a', '--account'):
                 account = arg
 
-        return {'accountFile':accFile, 'debug':debug, 'account':account}
+        return {'accountFile':accFile, 'verbose':verbose, 'account':account}
 
     except getopt.GetoptError:
         print "argument error"

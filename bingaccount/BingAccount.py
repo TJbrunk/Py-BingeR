@@ -28,7 +28,7 @@ class BingAccount(object):
 
         print "+"*15 + self.email + "+"*15
 
-        print "Start delay %d seconds." %(self._startDelay_)
+        print "%d second start delay" %(self._startDelay_)
 
         time.sleep(self._startDelay_)
 
@@ -152,8 +152,12 @@ class BingAccount(object):
     def get_account_points(self, browser):
         """Finds and returns the number of points the account currently has"""
         browser.get('http://www.bing.com/rewards/dashboard')
-        time.sleep(7)
-        return int(browser.find_element_by_id("id_rc").text)
+        time.sleep(2)
+        try:
+            points = int(browser.find_element_by_id("id_rc").text)
+        except:
+            points = -1
+        return points
 
     #---------------------------------------------------------------------------
 
@@ -207,10 +211,13 @@ class BingAccount(object):
         """Returns True if the account logged in successfully"""
         browser.get("http://account.live.com")
         time.sleep(2)
-        summary = browser.find_element_by_class_name("summaryhead")
-        if summary.text.find(self.email.lower()) > -1:
+
+        try:
+            summary = browser.find_element_by_class_name("summaryhead")
+            self._startingPoints_ = self.get_account_points(browser)
+            print "%d points currently" % self._startingPoints_
             return True
-        else:
+        except:
             return False
 
     #---------------------------------------------------------------------------
@@ -220,10 +227,11 @@ class BingAccount(object):
         browser.get("http://account.live.com")
         time.sleep(1)
         div = "+"*15
-        if browser.find_element_by_class_name("loginhead").text.find("Sign in") > -1:
+        try:
+            browser.find_element_by_class_name("loginhead").text.find("Sign in")
             print div + "%s logged out" %self.email + div + "\n\n\n"
             return True
-        else:
+        except:
             print "Error logging out. Restarting the browser"
             print div + self.email + div +"\n\n\n"
             return False
