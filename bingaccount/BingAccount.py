@@ -214,6 +214,8 @@ class BingAccount(object):
 
         try:
             summary = browser.find_element_by_class_name("summaryhead")
+            browser.get("http://www.bing.com")
+            time.sleep(0.5)
             self._startingPoints_ = self.get_account_points(browser)
             print "%d points currently" % self._startingPoints_
             return True

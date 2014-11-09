@@ -80,6 +80,8 @@ def main(argv):
             browserLoaded = False
         except:
             print "general error. proceeding to next account"
+            desktopBrowser.quit()
+            browserLoaded = False
 
 
     if browserLoaded:
@@ -145,6 +147,8 @@ def main(argv):
             browserLoaded = False
         except:
             print "general error. proceeding to next account"
+            desktopBrowser.quit()
+            browserLoaded = False
 
 
     #close mobile browser
