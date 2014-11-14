@@ -56,7 +56,7 @@ def main(argv):
 
                         a.get_bonus_points(desktopBrowser)
 
-            #            a.goal_check(desktopBrowser)
+                        a.goal_check(desktopBrowser)
 
                         #logout of account
                         a.logout(desktopBrowser)
@@ -124,7 +124,7 @@ def main(argv):
 
                         a.get_bonus_points(mobileBrowser)
 
-            #            a.goal_check(mobileBrowser)
+                        a.goal_check(mobileBrowser)
 
                         #logout of account
                         a.logout(mobileBrowser)

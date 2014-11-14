@@ -46,11 +46,14 @@ class BingAccount(object):
 
     def generate_word_list(self):
         """Generates a random list of words from the words.txt file"""
-        f = open(self._dir_ + '\\words.txt')
-        words = f.readlines()
-        for i in range(self._minSearches_):
-            self._wordList_.append(words[random.randint(0,109561)].rstrip())
-        f.close()
+        try:
+            f = open(self._dir_ + '\\words.txt')
+            words = f.readlines()
+            for i in range(self._minSearches_):
+                self._wordList_.append(words[random.randint(0,len(words))].rstrip())
+            f.close()
+        except IndexError:
+            print "Error generating word list"
 
     #---------------------------------------------------------------------------
 
