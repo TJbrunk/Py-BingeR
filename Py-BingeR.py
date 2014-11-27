@@ -14,6 +14,11 @@ def main(argv):
     from bingaccount import loadAccount
     import os, getopt
 
+    ack = "\nThanks for using Py-BingeR\n\
+version 2.2.0\n\
+visit my github site: https://github.com/TJbrunk/Py-BingeR\n\n"
+
+    print ack
 
     #selenium is used to automate web tasks
     #it is used in this case to login/logout of bing accounts
@@ -43,8 +48,9 @@ def main(argv):
                 for x in range(3):
                     #login to mobile
                     a.login("http://login.live.com", desktopBrowser)
-                    loggedin = a.verify_login(desktopBrowser)
-                    if loggedin:
+                    loggedin = a.verify_account_login(desktopBrowser)
+                    rewards = a.verify_rewards_account(desktopBrowser)
+                    if loggedin and rewards:
                         print "Logged in"
                         a.get_points(desktopBrowser)
                         a.get_multiplier(desktopBrowser)
@@ -68,6 +74,11 @@ def main(argv):
                         break
                     else:
                         print "Error Logging in as %s\n\n" % a.email
+
+                if not rewards:
+                    print "Not a bing rewards account"
+                if not loggedin:
+                    print "unable to login, verify the account and settings"
 
         except IndexError:
             #We get an index error after all the accounts in the file have been run
@@ -112,8 +123,9 @@ def main(argv):
                 for x in range(3):
                     #login to mobile
                     a.login("http://login.live.com", mobileBrowser)
-                    loggedin = a.verify_login(mobileBrowser)
-                    if loggedin:
+                    loggedin = a.verify_account_login(mobileBrowser)
+                    rewards = a.verify_rewards_account(mobileBrowser)
+                    if loggedin and rewards:
                         print "Logged in"
                         a.get_points(mobileBrowser)
                         a.get_multiplier(mobileBrowser)
@@ -128,7 +140,7 @@ def main(argv):
 
                         #logout of account
                         a.logout(mobileBrowser)
-                        if a.verify_logout(mobileBrowser):
+                        if a.verify_account_logout(mobileBrowser):
                             pass
                         else:
                             mobileBrowser.quit()
@@ -136,6 +148,10 @@ def main(argv):
                         break
                     else:
                         print "Error logging in as %s\n\n" % a.email
+                if not rewards:
+                    print "Not a bing rewards account"
+                if not loggedin:
+                    print "unable to login, verify the account and settings"
 
         except IndexError:
             print "Finished with mobile searches"
@@ -155,6 +171,8 @@ def main(argv):
     if browserLoaded:
         mobileBrowser.quit()
     print "ALL Searches Complete"
+
+    print ack
 
 #===============================================================================
 

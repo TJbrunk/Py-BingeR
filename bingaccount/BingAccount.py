@@ -210,20 +210,38 @@ class BingAccount(object):
 
     #---------------------------------------------------------------------------
 
-    def verify_login(self, browser):
+    def verify_account_login(self, browser):
         """Returns True if the account logged in successfully"""
         browser.get("http://account.live.com")
         time.sleep(2)
 
         try:
             summary = browser.find_element_by_class_name("summaryhead")
-            browser.get("http://www.bing.com")
-            time.sleep(0.5)
-            self._startingPoints_ = self.get_account_points(browser)
-            print "%d points currently" % self._startingPoints_
+##            browser.get("http://www.bing.com")
+##            time.sleep(0.5)
+##            self._startingPoints_ = self.get_account_points(browser)
+##            print "%d points currently" % self._startingPoints_
             return True
         except:
             return False
+
+    #---------------------------------------------------------------------------
+
+    def verify_rewards_account(self, browser):
+        """Returns True if the account is a bing rewards account"""
+        browser.get("http://www.bing.com/rewards/dashboard")
+        time.sleep(2)
+
+
+        header = browser.find_element_by_class_name("header").text.find(
+                                "You are not signed in to Bing Rewards.")
+
+        if header > -1:
+            return False
+        else:
+            return True
+##        except None:
+##            return False
 
     #---------------------------------------------------------------------------
 
