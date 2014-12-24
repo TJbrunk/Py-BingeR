@@ -1,3 +1,4 @@
+
 import BingAccount, random, time, os
 
 #**********************************DESKTOP CHILDCLASS***************************
@@ -12,6 +13,7 @@ class Desktop(BingAccount.BingAccount):
         self.minSearchesHigh = int(kwargs['minSearchesHigh'])
         self.startDelayLow = int(kwargs['startDelayLow'])
         self.startDelayHigh = int(kwargs['startDelayHigh'])
+
 
         self._dir_ = os.getcwd() + '\\dependencies'
 
@@ -48,7 +50,6 @@ class Desktop(BingAccount.BingAccount):
         browser.find_element_by_id('id_l').click()
         time.sleep(5)
         browser.find_element_by_partial_link_text('Sign out').click()
-
 
     #---------------------------------------------------------------------------
 

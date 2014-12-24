@@ -73,7 +73,6 @@ class Mobile(BingAccount.BingAccount):
     def get_points(self, browser):
         super(Mobile, self).get_points(browser, "Mobile search-")
 
-
     def login(self, url, browser):
         super(Mobile, self).login(url, browser)
         time.sleep(0.5)

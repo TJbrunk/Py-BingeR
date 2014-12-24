@@ -3,6 +3,7 @@ import csv
 
 #*****************************LOAD ACCOUNTS FUNCTION****************************
 
+
 def loadAccount(account, f):
     """Loads the specified Bing account object from csv file"""
  #   account += 1

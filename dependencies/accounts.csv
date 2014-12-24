@@ -1,0 +1,2 @@
+email,password,PC Searches,Mobile Searches,Seach Wait Time min,Search Wait time Max,Min Searches Low,Min Searches Max,Start Delay Min,Start Delay Max
+ACCOUNT@outlook.com,PASSWORD,TRUE,TRUE,5,15,1,5,10,60

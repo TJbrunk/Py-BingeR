@@ -80,6 +80,7 @@ class BingAccount(object):
         #Go to bing Fly Out page: (Details about point accumluated today:
         browser.get('http://www.bing.com/rewardsapp/bepflyoutpage')
         time.sleep(3)
+
         ##print "Calculating points available to redeem"
         #All offers on the flyout page are of class = offertitle
         offers = browser.find_elements_by_class_name('offertitle')
